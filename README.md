@@ -5,10 +5,8 @@ This plant disease detector utilizes deep learning and CNNs to detect which dise
   3. Convolution layer 
   4. Max pool layer  
   5. Dropout layer 
-  6. Fully connected layer 
-  7. ReLU activation  
-  8. Fully connected layer  
-  9. ReLU activation  
+  6. Fully connected layer with ReLU activation
+  7. Fully connected layer with ReLU activation 
 
 Instructions: 
 
