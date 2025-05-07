@@ -7,10 +7,6 @@ files.upload()
 !kaggle datasets download -d emmarex/plantdisease
 !unzip -o plantdisease.zip
 
-!pwd
-
-!rm -f torch.py
-!rm -rf __pycache__/
 
 import torch
 import torch.nn as nn
@@ -34,15 +30,7 @@ test_size = len(dataset) - train_size
 train_data, test_data = torch.utils.data.random_split(dataset, [train_size, test_size])
 train_loader = DataLoader(train_data, batch_size=64, shuffle=True)
 test_loader=DataLoader(test_data,batch_size=64, shuffle=False )
-
-
-#x = [img.view(-1).numpy() for img, _ in dataset]
-#kmeans = KMeans(n_clusters=5)
-#labels = kmeans.fit_predict(x)
 train_data[0][0].shape
-
-import os
-os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
 
 class Model(nn.Module):
     def __init__(self):
@@ -96,7 +84,6 @@ torch.save(model.state_dict(), '/content/drive/MyDrive/plant_disease_model.pth')
 from google.colab import drive
 drive.mount('/content/drive',force_remount=True)
 model.load_state_dict(torch.load('/content/drive/MyDrive/plant_disease_model.pth'))
-# , map_location=torch.device('cpu')
 
 model.eval()
 with torch.no_grad():
@@ -157,9 +144,7 @@ class_names = [
 ]
 
 
-#model_path = '/content/drive/MyDrive/plant_disease_model.pth'
-#model = torch.load(model_path, map_location=torch.device('cpu'))
-#model.eval()
+
 
 
 transform2 = transforms.Compose([
