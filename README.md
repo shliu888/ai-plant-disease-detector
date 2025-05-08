@@ -14,7 +14,7 @@ Two versions of the model are included: one implemented with PyTorch, and one im
 
 Instructions: 
 
-1. Paste the code in detector.py into a Google Colab notebook.
+1. Paste the code in either detector-pytorch.py or detector-tensorflow.py into a Google Colab notebook.
 2. Connect to a GPU, such as the T4 (free) or A100 GPU (paid).
 3. In kaggle.com, create a new API token if you don't have one already.
 4. In Google Colab, upload the kaggle.json file when prompted
