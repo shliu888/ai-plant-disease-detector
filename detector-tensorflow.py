@@ -42,17 +42,17 @@ num_classes = len(class_names)
 
 def Model(num_classes):
     model = models.Sequential()
-    model.add(layers.Rescaling(1./255, input_shape=(64, 64, 3))) 
-    model.add(layers.Conv2D(64, (3, 3), activation='relu', padding='same'))  
-    model.add(layers.MaxPooling2D((2, 2)))  
-    model.add(layers.Conv2D(128, (3, 3), activation='relu', padding='same')) 
-    model.add(layers.MaxPooling2D((2, 2)))  
+    model.add(layers.Rescaling(1./255, input_shape=(64, 64, 3)))
+    model.add(layers.Conv2D(64, (3, 3), activation='relu', padding='same'))
+    model.add(layers.MaxPooling2D((2, 2)))
+    model.add(layers.Conv2D(128, (3, 3), activation='relu', padding='same'))
+    model.add(layers.MaxPooling2D((2, 2)))
     model.add(layers.Flatten())
-    model.add(layers.Dropout(0.3))  
-    model.add(layers.Dense(512, activation='relu'))  
-    model.add(layers.Dense(128, activation='relu'))  
-    model.add(layers.Dense(64, activation='relu'))  
-    model.add(layers.Dense(num_classes, activation='softmax'))  
+    model.add(layers.Dropout(0.3))
+    model.add(layers.Dense(512, activation='relu'))
+    model.add(layers.Dense(128, activation='relu'))
+    model.add(layers.Dense(64, activation='relu'))
+    model.add(layers.Dense(num_classes, activation='softmax'))
     return model
 
 model = Model(num_classes)
@@ -65,7 +65,7 @@ model.compile(optimizer='adam',
 epochs = 20
 model.fit(train_ds,validation_data=val_ds, epochs=epochs)
 
-model.save('/content/plant_disease_model_tf.h5')
+model.save('/content/plant_disease_model_tf.keras')
 
 
 def preprocess_img(image_path):
@@ -75,23 +75,20 @@ def preprocess_img(image_path):
     img_array = img_array / 255.0
     return img_array
 
-if __name__ == '__main__':
-  
-    model = tf.keras.models.load_model('/content/plant_disease_model_tf.h5')
 
-    
-    from google.colab import files
-    uploaded = files.upload()
 
-    if uploaded:
-        image_file_path = list(uploaded.keys())[0]
-        processed_image = preprocess_img(image_file_path)
+model = tf.keras.models.load_model('/content/plant_disease_model_tf.keras')
+from google.colab import files
+uploaded = files.upload()
 
-        predictions = model.predict(processed_image)
-        predicted_class_index = np.argmax(predictions[0])
-        predicted_class_name = class_names[predicted_class_index]
-        confidence = predictions[0][predicted_class_index]
+if uploaded:
+  image_file_path = list(uploaded.keys())[0]
+  processed_image = preprocess_img(image_file_path)
+  predictions = model.predict(processed_image)
+  predicted_class_index = np.argmax(predictions[0])
+  predicted_class_name = class_names[predicted_class_index]
+  confidence = predictions[0][predicted_class_index]
 
-        print(f'Predicted Label: {predicted_class_name} (Confidence: {confidence}%)')
-    else:
-        print("No image uploaded for prediction.")
+  print(f'Predicted Label: {predicted_class_name} (Confidence: {confidence}%)')
+else:
+  print("No image uploaded for prediction.")
