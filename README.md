@@ -6,7 +6,11 @@ This plant disease detector utilizes deep learning and CNNs to detect which dise
   4. Max pool layer  
   5. Dropout layer 
   6. Fully connected layer with ReLU activation
-  7. Fully connected layer with ReLU activation 
+  7. Fully connected layer with ReLU activation
+  8. Fully connected layer with ReLU activation
+  9. Fully connected layer with Softmax activation
+
+Two versions of the model are included: one implemented with PyTorch, and one implemented with TensorFlow. The instructions are universal for both versions.
 
 Instructions: 
 
