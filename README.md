@@ -1,14 +1,16 @@
 This plant disease detector utilizes deep learning and CNNs to detect which disease a plant has. The architecture is as follows : 
 
-  1. Convolution layer 
-  2. Max pool layer 
-  3. Convolution layer 
-  4. Max pool layer  
-  5. Dropout layer 
-  6. Fully connected layer with ReLU activation
-  7. Fully connected layer with ReLU activation
+  1. Convolution layer
+  2. Batch Normalization layer
+  3. Max pool layer 
+  4. Convolution layer
+  5. Batch Normalization layer
+  6. Max pool layer  
+  7. Dropout layer 
   8. Fully connected layer with ReLU activation
-  9. Fully connected layer with Softmax activation
+  9. Fully connected layer with ReLU activation
+  10. Fully connected layer with ReLU activation
+  11. Fully connected layer with Softmax activation
 
 Two versions of the model are included: one implemented with PyTorch, and one implemented with TensorFlow. The instructions are universal for both versions.
 
