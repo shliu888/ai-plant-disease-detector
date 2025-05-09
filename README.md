@@ -15,6 +15,7 @@ This plant disease detector utilizes deep learning and CNNs to detect which dise
 Two versions of the model are included: one implemented with PyTorch, and one implemented with TensorFlow. The instructions are universal for both versions.
 
 **Note**: The TensorFlow version, which is the version under active development, will save the model at /content/drive/MyDrive/plant_disease_model_tf.keras.     
+
 Instructions: 
 
 1. Paste the code in either detector-pytorch.py or detector-tensorflow.py into a Google Colab notebook.
