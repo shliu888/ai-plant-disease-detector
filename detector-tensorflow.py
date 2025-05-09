@@ -40,22 +40,18 @@ val_ds = image_dataset_from_directory(
 class_names = train_ds.class_names
 num_classes = len(class_names)
 
-def Model(num_classes):
-    model = models.Sequential()
-    model.add(layers.Rescaling(1./255, input_shape=(64, 64, 3)))
-    model.add(layers.Conv2D(64, (3, 3), activation='relu', padding='same'))
-    model.add(layers.MaxPooling2D((2, 2)))
-    model.add(layers.Conv2D(128, (3, 3), activation='relu', padding='same'))
-    model.add(layers.MaxPooling2D((2, 2)))
-    model.add(layers.Flatten())
-    model.add(layers.Dropout(0.3))
-    model.add(layers.Dense(512, activation='relu'))
-    model.add(layers.Dense(128, activation='relu'))
-    model.add(layers.Dense(64, activation='relu'))
-    model.add(layers.Dense(num_classes, activation='softmax'))
-    return model
-
-model = Model(num_classes)
+model = models.Sequential()
+model.add(layers.Rescaling(1./255, input_shape=(64, 64, 3)))
+model.add(layers.Conv2D(64, (3, 3), activation='relu', padding='same'))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Conv2D(128, (3, 3), activation='relu', padding='same'))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Flatten())
+model.add(layers.Dropout(0.3))
+model.add(layers.Dense(512, activation='relu'))
+model.add(layers.Dense(128, activation='relu'))
+model.add(layers.Dense(64, activation='relu'))
+model.add(layers.Dense(num_classes, activation='softmax'))
 
 
 model.compile(optimizer='adam',
