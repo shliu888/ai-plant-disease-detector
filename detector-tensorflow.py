@@ -101,8 +101,6 @@ from google.colab import drive
 drive.mount('/content/drive')
 model = tf.keras.models.load_model('/content/drive/MyDrive/plant_disease_model_tf.keras')  
 
-
-import matplotlib.pyplot as plt
 files.upload()
 !mkdir -p ~/.kaggle                                                           # Predictions
 !cp kaggle.json ~/.kaggle/
