@@ -12,7 +12,7 @@ This plant disease detector utilizes deep learning and CNNs to detect which dise
   10. Fully connected layer with ReLU activation
   11. Fully connected layer with Softmax activation      
 
-Diagram:     
+Diagram (click to view in detail):     
 ![Screen Shot 2025-05-10 at 7 45 10 PM](https://github.com/user-attachments/assets/d80411b4-be31-4f07-ae72-b090daa1b105)
 
 
