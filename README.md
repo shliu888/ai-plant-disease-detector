@@ -13,7 +13,8 @@ This plant disease detector utilizes deep learning and CNNs to detect which dise
   11. Fully connected layer with Softmax activation      
 
 Diagram (click to view in detail):     
-![Screen Shot 2025-05-10 at 7 45 10 PM](https://github.com/user-attachments/assets/d80411b4-be31-4f07-ae72-b090daa1b105)
+
+![plant_disease_model_tf keras](https://github.com/user-attachments/assets/11a6c733-8aa0-4f1d-b20a-e9d6dc74935c)
 
 
 Two versions of the model are included: one implemented with PyTorch, and one implemented with TensorFlow. The instructions are universal for both versions.
