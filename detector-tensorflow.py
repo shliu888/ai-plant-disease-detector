@@ -144,8 +144,6 @@ def preprocess_img(image_path):
     img_array = img_array / 255.0
     return img_array
 
-model = tf.keras.models.load_model('/content/drive/MyDrive/plant_disease_model_tf.keras')
-from google.colab import files
 uploaded = files.upload()
 
 if uploaded:
