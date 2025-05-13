@@ -1,9 +1,10 @@
 import tensorflow as tf
-from tensorflow.keras import layers, models
-from tensorflow.keras.preprocessing import image_dataset_from_directory
+from tensorflow import keras
 import numpy as np
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from google.colab import files
 from google.colab import drive
+import json
 files.upload()
 !mkdir -p ~/.kaggle
 !cp kaggle.json ~/.kaggle/
@@ -12,19 +13,26 @@ files.upload()
 !unzip -o plantdisease.zip
 data_dir = '/content/plantvillage/PlantVillage'
 
-train_ds = image_dataset_from_directory(
+datagen = ImageDataGenerator(
+    rotation_range=20,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    shear_range=0.2,
+    zoom_range=0.2,
+    horizontal_flip=True,
+    fill_mode='nearest'
+)
+train_ds = datagen.flow_from_directory(
     data_dir,
-    labels='inferred',
-    label_mode='categorical',
-    image_size=(64, 64),
+    target_size=(64, 64),
     batch_size=64,
-    shuffle=True,
-    validation_split=0.2,
-    subset='training',
-    seed=42
+    class_mode='categorical',
+    seed=42,
+    subset='training'
 )
 
-val_ds = image_dataset_from_directory(
+
+validation_ds = tf.keras.utils.image_dataset_from_directory(
     data_dir,
     labels='inferred',
     label_mode='categorical',
@@ -40,57 +48,55 @@ val_ds = image_dataset_from_directory(
 class_names = train_ds.class_names
 num_classes = len(class_names)
 
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Rescaling(1./255, input_shape=(64, 64, 3)))
+model.add(tf.keras.layers.Conv2D(64, (5, 5), activation='relu', padding='same'))
+model.add(tf.keras.layers.Conv2D(64, (4,4),activation='relu', padding='same'))
+model.add(tf.keras.layers.Conv2D(64, (3,3), activation='relu', padding='same'))
+model.add(tf.keras.layers.Conv2D(64, (2,2), activation='relu', padding='same'))
+model.add(tf.keras.layers.Conv2D(64, (1,1), activation='relu', padding='same'))
+model.add(tf.keras.layers.BatchNormalization())
+model.add(tf.keras.layers.MaxPooling2D((2, 2)))
+model.add(tf.keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same'))
+model.add(tf.keras.layers.Conv2D(64, (3,3), activation='relu', padding='same'))
+model.add(tf.keras.layers.Conv2D(64, (3,3), activation='relu', padding='same'))
+model.add(tf.keras.layers.BatchNormalization())
+model.add(tf.keras.layers.MaxPooling2D((2, 2)))
+model.add(tf.keras.layers.Conv2D(512, (2,2),activation='relu', padding='same'))
+model.add(tf.keras.layers.Conv2D(512,(2,2), activation='relu', padding='same'))
+model.add(tf.keras.layers.Conv2D(512, (2,2), activation='relu', padding='same'))
+model.add(tf.keras.layers.MaxPooling2D((2,2)))
+model.add(tf.keras.layers.Conv2D(512, (4,4), activation='relu', padding='same'))
+model.add(tf.keras.layers.Conv2D(512, (4,4), activation='relu', padding='same'))
+model.add(tf.keras.layers.Conv2D(512, (3,3), activation='relu', padding='same'))
+model.add(tf.keras.layers.Conv2D(512, (3,3), activation='relu', padding='same'))
+model.add(tf.keras.layers.Flatten())
+model.add(tf.keras.layers.Dropout(0.5))
+model.add(tf.keras.layers.Dense(512, activation='relu'))
+model.add(tf.keras.layers.Dense(128, activation='relu'))
+model.add(tf.keras.layers.Dense(64, activation='relu'))
+model.add(tf.keras.layers.Dense(num_classes, activation='softmax'))
 
-model = models.Sequential()
-model.add(layers.Rescaling(1./255, input_shape=(64, 64, 3)))
-model.add(layers.Conv2D(64, (3, 3), activation='relu', padding='same'))
-model.add(layers.BatchNormalization())
-model.add(layers.MaxPooling2D((2, 2)))
-model.add(layers.Conv2D(128, (3, 3), activation='relu', padding='same'))
-model.add(layers.BatchNormalization())
-model.add(layers.MaxPooling2D((2, 2)))
-model.add(layers.Flatten())
-model.add(layers.Dropout(0.3))
-model.add(layers.Dense(512, activation='relu'))
-model.add(layers.Dense(128, activation='relu'))
-model.add(layers.Dense(64, activation='relu'))
-model.add(layers.Dense(num_classes, activation='softmax'))
-
-
-
-
-model.compile(optimizer='adam',
+optimizer=keras.optimizers.Adam(learning_rate=0.001)
+model.compile(optimizer=optimizer,
               loss='categorical_crossentropy',
-              metrics=['accuracy'])
+              metrics=['accuracy']
+
+              )
 
 epochs = 20
-model.fit(train_ds,validation_data=val_ds, epochs=epochs)
+model.fit(train_ds,
+    steps_per_epoch=train_ds.samples // 64,
+    epochs=epochs,
+    validation_data=validation_ds,
+    validation_steps=validation_ds.cardinality()
 drive.mount('/content/drive')
 
 model.save('/content/drive/MyDrive/plant_disease_model_tf.keras')
+with open('/content/drive/MyDrive/plant_disease_model_tf_class_names.json', 'w') as f:
+  json.dump(class_names, f)
 
-if 'history' in locals(): 
-    plt.figure(figsize=(12, 4))
-    plt.subplot(1, 2, 1)
-    plt.plot(history.history['loss'], label='Training Loss')
-    plt.plot(history.history['val_loss'], label='Validation Loss')
-    plt.title('Loss')
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    plt.legend()
-
-    plt.subplot(1, 2, 2)
-    plt.plot(history.history['accuracy'], label='Training Accuracy')
-    plt.plot(history.history['val_accuracy'], label='Validation Accuracy')
-    plt.title('Accuracy')
-    plt.xlabel('Epoch')
-    plt.ylabel('Accuracy')
-    plt.legend()
-    plt.show()
-else:
-    print("Model was not trained in this session.  No training history to plot.")
-
-#------------------------------------------------------------------------------------------------
+#-----------------------------------------------
 
 import tensorflow as tf                                                               # Load model from Drive
 from tensorflow.keras import layers, models
@@ -98,9 +104,12 @@ from tensorflow.keras.preprocessing import image_dataset_from_directory
 import numpy as np
 from google.colab import files
 from google.colab import drive
+import json
 drive.mount('/content/drive')
-model = tf.keras.models.load_model('/content/drive/MyDrive/plant_disease_model_tf.keras')  
+model = models.load_model('/content/drive/MyDrive/plant_disease_model_tf.keras')
 
+'''
+print('Upload the kaggle.json file\n')
 files.upload()
 !mkdir -p ~/.kaggle                                                           # Predictions
 !cp kaggle.json ~/.kaggle/
@@ -108,34 +117,10 @@ files.upload()
 !kaggle datasets download -d emmarex/plantdisease
 !unzip -o plantdisease.zip
 data_dir = '/content/plantvillage/PlantVillage'
+'''
 
-train_ds = image_dataset_from_directory(
-    data_dir,
-    labels='inferred',
-    label_mode='categorical',
-    image_size=(64, 64),
-    batch_size=64,
-    shuffle=True,
-    validation_split=0.2,
-    subset='training',
-    seed=42
-)
-
-val_ds = image_dataset_from_directory(
-    data_dir,
-    labels='inferred',
-    label_mode='categorical',
-    image_size=(64, 64),
-    interpolation='nearest',
-    batch_size=64,
-    shuffle=False,
-    validation_split=0.2,
-    subset='validation',
-    seed=42
-)
-
-class_names = train_ds.class_names
-num_classes = len(class_names)
+with open('/content/drive/MyDrive/plant_disease_model_tf_class_names.json', 'r') as f:
+    class_names = json.load(f)
 
 def preprocess_img(image_path):
     img = tf.keras.utils.load_img(image_path, target_size=(64, 64))
@@ -144,8 +129,8 @@ def preprocess_img(image_path):
     img_array = img_array / 255.0
     return img_array
 
-uploaded = files.upload()
-
+print('Upload the image for prediction\n')
+uploaded=files.upload()
 if uploaded:
   image_file_path = list(uploaded.keys())[0]
   processed_image = preprocess_img(image_file_path)
@@ -153,6 +138,11 @@ if uploaded:
   predicted_class_index = np.argmax(predictions[0])
   predicted_class_name = class_names[predicted_class_index]
   confidence = predictions[0][predicted_class_index]
+
+  probabilities = predictions[0]
+  print("Class Probabilities:")
+  for i, prob in enumerate(probabilities):
+    print(f"{class_names[i]}: {prob}%")
 
   print(f'Predicted Label: {predicted_class_name} (Confidence: {confidence}%)')
 else:
