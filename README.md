@@ -1,17 +1,33 @@
 This plant disease detector utilizes deep learning and CNNs to detect which disease a plant has. The architecture is as follows : 
 
-  1. Convolution layer
-  2. Batch Normalization layer
-  3. Max pool layer 
-  4. Convolution layer
-  5. Batch Normalization layer
-  6. Max pool layer  
-  7. Dropout layer 
-  8. Fully connected layer with ReLU activation
-  9. Fully connected layer with ReLU activation
-  10. Fully connected layer with ReLU activation
-  11. Fully connected layer with Softmax activation      
+1. Convolution layer
+2. Convolution layer
+3. Convolution layer
+4. Convolution layer
+5. Convolution layer
+6. Batch Normalization layer
+7. Max pool layer
+8. Convolution layer
+9. Convolution layer
+10. Convolution layer
+11. Batch Normalization layer
+12. Max pool layer
+13. Convolution layer
+14. Convolution layer
+15. Convolution layer
+16. Max pool layer
+17. Convolution layer
+18. Convolution layer
+19. Convolution layer
+20. Convolution layer
+21. Flatten layer
+22. Dropout layer
+23. Fully connected layer with ReLU activation
+24. Fully connected layer with ReLU activation
+25. Fully connected layer with ReLU activation
+26. Fully connected layer with Softmax activation
 
+    
 Diagram (click to view in detail):     
 
 ![plant_disease_model_tf keras](https://github.com/user-attachments/assets/11a6c733-8aa0-4f1d-b20a-e9d6dc74935c)
