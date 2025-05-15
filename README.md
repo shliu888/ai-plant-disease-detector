@@ -1,31 +1,12 @@
 This plant disease detector utilizes deep learning and CNNs to detect which disease a plant has. The architecture is as follows : 
 
-1. Convolution layer
-2. Convolution layer
-3. Convolution layer
-4. Convolution layer
-5. Convolution layer
-6. Batch Normalization layer
-7. Max pool layer
-8. Convolution layer
-9. Convolution layer
-10. Convolution layer
-11. Batch Normalization layer
-12. Max pool layer
-13. Convolution layer
-14. Convolution layer
-15. Convolution layer
-16. Max pool layer
-17. Convolution layer
-18. Convolution layer
-19. Convolution layer
-20. Convolution layer
-21. Flatten layer
-22. Dropout layer
-23. Fully connected layer with ReLU activation
-24. Fully connected layer with ReLU activation
-25. Fully connected layer with ReLU activation
-26. Fully connected layer with Softmax activation
+1. Pretrained VGG16 architecture with frozen weights, truncated before bottleneck
+2. Flatten layer
+3. Dropout layer
+4. Fully connected layer with ReLU activation
+5. Fully connected layer with ReLU activation
+6. Fully connected layer with ReLU activation
+7. Fully connected layer with Softmax activation
 
     
 Diagram (click to view in detail):     
