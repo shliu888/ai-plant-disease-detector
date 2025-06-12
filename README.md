@@ -18,6 +18,6 @@ Diagram:
 
 Instructions: 
 
-1. Go to https://www.kaggle.com/code/lithio67/plant-disease-classifier to view the Kaggle version.
+1. Go to[ https://www.kaggle.com/code/lithio67/plant-disease-classifier](url) to view the Kaggle version.
 2. Select a GPU
-3. Enjoy!
+3. Run and enjoy!
