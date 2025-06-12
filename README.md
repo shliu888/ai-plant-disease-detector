@@ -16,8 +16,6 @@ Diagram:
 
 ![Model Architecture](https://github.com/user-attachments/assets/c9c69f75-8415-4a9a-a41e-a25f489d7c5b)
 
-Instructions: 
+The notebook is also available at [https://www.kaggle.com/code/lithio67/plant-disease-classifier](url).
 
-1. Go to[ https://www.kaggle.com/code/lithio67/plant-disease-classifier](url) to view the Kaggle version.
-2. Select a GPU
-3. Run and enjoy!
+Feel free to create a pull request with any suggestions or open an issue.
